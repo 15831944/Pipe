@@ -1,0 +1,24 @@
+
+# /
+/*.zip
+/*.user
+/*.suo
+/*.project
+/*.ncb
+/*.opt
+/*.cdtproject
+/*.sbr
+/*.suo
+/*.sdf
+/*.msi
+/*.opensdf
+/ipch
+
+#/Debug/
+/Debug
+/Pipe/Debug
+
+#/Release
+/Release
+/Pipe/Release
+
