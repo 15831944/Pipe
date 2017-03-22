@@ -8,6 +8,14 @@ public:
 	virtual ~HedgeTradeTr(void);
 
 protected:
+	const CString& onReadyReciveEventName() const override;
+
+	const CString& onReciveEventName() const override;
+
+	const CString& onReadySendEventName() const override;
+	
+	const CString& onSendEventName() const override;
+	
 	void setReciveData(BYTE* data, DWORD size) override;
 
 	enum HedgeTrade : int{

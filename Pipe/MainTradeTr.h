@@ -14,6 +14,14 @@ public:
 protected:
 	void setReciveData(BYTE* data, DWORD size) override;
 
+	const CString& onReadyReciveEventName() const override;
+
+	const CString& onReciveEventName() const override;
+
+	const CString& onReadySendEventName() const override;
+	
+	const CString& onSendEventName() const override;
+
 private:
 	//	ヘッジアカウントスプレッド
 	double m_hedgeAccountSpread;

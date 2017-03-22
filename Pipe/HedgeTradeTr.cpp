@@ -21,3 +21,23 @@ void HedgeTradeTr::setReciveData(BYTE* data, DWORD size)
 		OutputDebugString(szBuff);
 	}
 }
+
+const CString& HedgeTradeTr::onReadyReciveEventName() const
+{
+	return ON_READY_TRADE;
+}
+
+const CString& HedgeTradeTr::onReciveEventName() const
+{
+	return ON_DATA_TRADE;
+}
+
+const CString& HedgeTradeTr::onReadySendEventName() const
+{
+	return ON_READY_SPREAD;
+}
+	
+const CString& HedgeTradeTr::onSendEventName() const
+{
+	return ON_DATA_SPREAD;
+}

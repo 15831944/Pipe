@@ -29,10 +29,27 @@ public:
 		return m_doesReciveData;
 	}
 
-public:
-	static const CString ON_READY;
+
+	/////////////////////////////////////////////////////
+	//
+	//	EventName
+
+	virtual const CString& onReadyReciveEventName() const = 0;
 	
-	static const CString ON_DATA;
+	virtual const CString& onReciveEventName() const = 0;
+
+	virtual const CString& onReadySendEventName() const = 0;
+	
+	virtual const CString& onSendEventName() const = 0;
+
+protected:
+	static const CString ON_READY_SPREAD;
+	
+	static const CString ON_DATA_SPREAD;
+
+	static const CString ON_READY_TRADE;
+	
+	static const CString ON_DATA_TRADE;
 
 protected:
 

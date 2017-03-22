@@ -20,3 +20,23 @@ void MainTradeTr::setReciveData(BYTE* data, DWORD size){
 		OutputDebugString(szBuff);
 	}
 }
+
+const CString& MainTradeTr::onReadyReciveEventName() const
+{
+	return ON_READY_SPREAD;
+}
+
+const CString& MainTradeTr::onReciveEventName() const
+{
+	return ON_DATA_SPREAD;	
+}
+
+const CString& MainTradeTr::onReadySendEventName() const
+{
+	return ON_READY_TRADE;
+}
+	
+const CString& MainTradeTr::onSendEventName() const
+{
+	return ON_DATA_TRADE;
+}

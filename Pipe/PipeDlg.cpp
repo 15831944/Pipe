@@ -90,6 +90,7 @@ BEGIN_MESSAGE_MAP(CPipeDlg, CDialogEx)
 	ON_BN_CLICKED(IDEND, &CPipeDlg::OnBnClickedEnd)
 	ON_BN_CLICKED(IDC_BTN_START, &CPipeDlg::OnBnClickedBtnStart)
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BTN_DEBUG_SEND, &CPipeDlg::OnBnClickedBtnDebugSend)
 END_MESSAGE_MAP()
 
 
@@ -200,14 +201,14 @@ void CPipeDlg::OnBnClickedBtnStart()
 			transmitter()->beginReciveData(PathTrade);
 		}
 
-		m_timerId = SetTimer( Timer::SEND_DATA, 1000, NULL);
+		//m_timerId = SetTimer( Timer::SEND_DATA, 1000, NULL);
 	}
 }
 
 void CPipeDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	if( nIDEvent == m_timerId ){
-		BYTE buff[256];
+		BYTE buff[32];
 		static int cnt = 0;
 
 		if( m_tradeType == Trade::MAIN ){
@@ -217,14 +218,55 @@ void CPipeDlg::OnTimer(UINT_PTR nIDEvent)
 			transmitter()->sendData( PathTrade, buff, sizeof(int) );
 		}
 		else if( m_tradeType == Trade::HEDGE ){
+			int spread[] = {7, 8, 9};
+
+			memcpy( buff, &spread[cnt%3], sizeof(int) );
+			transmitter()->sendData( PathSpread, buff, sizeof(int) );
+		}
+
+		/*
+		else if( m_tradeType == Trade::HEDGE ){
 			double spread[] = {0.0002, 0.0003, 0.0004};
 
 			memcpy( buff, &spread[cnt%3], sizeof(double) );
 			transmitter()->sendData( PathSpread, buff, sizeof(double) );
 		}
-
+		*/
 		cnt++;
 	}
 
 	//CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CPipeDlg::OnBnClickedBtnDebugSend()
+{
+	BYTE buff[32];
+	static int cnt = 0;
+
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		int trade[] = {1, 2};
+
+		memcpy( buff, &trade[cnt%2], sizeof(int) );
+		if( transmitter() == nullptr )
+			setTransmitter( new MainTradeTr() );
+
+		transmitter()->sendData( PathTrade, buff, sizeof(int) );
+	}
+	else{
+		int spread[] = {7, 8, 9};
+
+		memcpy( buff, &spread[cnt%3], sizeof(int) );
+		
+		if( transmitter() == nullptr )
+			setTransmitter( new HedgeTradeTr() );
+
+		transmitter()->sendData( PathSpread, buff, sizeof(int) );
+	}
+
+	cnt++;
 }

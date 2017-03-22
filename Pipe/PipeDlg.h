@@ -65,4 +65,5 @@ private:
 	int m_tradeType;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnBnClickedBtnDebugSend();
 };
