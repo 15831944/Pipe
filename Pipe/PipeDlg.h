@@ -66,4 +66,5 @@ private:
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedBtnDebugSend();
+	afx_msg void OnBnClickedBtnTestSend();
 };

@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "Transmitter.h"
 #include "stUtility.h"
+#include "TradeDataManager.h"
 
 const CString Transmitter::ON_READY_SPREAD = _T("OnReadySpread");
 	
@@ -12,6 +13,11 @@ const CString Transmitter::ON_DATA_TRADE = _T("OnDataTrade");
 
 
 Transmitter::Transmitter(void)
+	: m_doesReciveData(false)
+	, m_doesSendData(false)
+	, m_path()
+	, m_sendPath()
+	, m_testPath()
 {
 }
 
@@ -19,7 +25,7 @@ Transmitter::~Transmitter(void)
 {
 }
 
-void Transmitter::sendData(LPCTSTR lpszPath, BYTE* lpData, size_t size)
+void Transmitter::sendData(LPCTSTR lpszPath, const BYTE* lpData, size_t size)
 {
 	CString debug;
 	BYTE Buff[256];
@@ -71,10 +77,10 @@ void Transmitter::beginReciveData(LPCTSTR lpszPath)
 {
 	setPath(lpszPath);
 	setDoesReciveData(true);
-	_beginthread( Transmitter::reciveData, 0, static_cast<void*>(this) );
+	_beginthread( Transmitter::reciveDataProc, 0, static_cast<void*>(this) );
 }
 
-void Transmitter::reciveData(void* transmitter)
+void Transmitter::reciveDataProc(void* transmitter)
 {
 	Transmitter* tr = static_cast<Transmitter*>(transmitter);
 	HANDLE hOnData = NULL;
@@ -122,4 +128,52 @@ void Transmitter::reciveData(void* transmitter)
 
 	CloseHandle(hOnReady);
 	CloseHandle(hOnData);
+}
+
+void Transmitter::beginSendData(LPCTSTR lpszPath)
+{
+	setSendPath(lpszPath);
+	setDoesSendData(true);
+	_beginthread( Transmitter::sendDataProc, 0, static_cast<void*>(this) );
+}
+
+void Transmitter::sendDataProc(void* transmitter)
+{
+	Transmitter* tr = static_cast<Transmitter*>(transmitter);
+	TradeDataManager::dataContainer conData;
+
+	while( tr->doesSendData() ){
+		TradeDataManager::instance().moveData(conData);
+
+		while( !conData.empty() ){
+			const auto& data = conData.front();
+
+			tr->sendData( tr->sendPath(), data.get(), data.size() );
+			conData.pop();
+		}
+		
+		::Sleep(1);
+	}
+}
+
+void Transmitter::beginTestSendData(LPCTSTR lpszPath)
+{
+	setTestPath(lpszPath);
+	_beginthread( Transmitter::testSendData, 0, static_cast<void*>(this) );
+}
+
+void Transmitter::testSendData(void* transmitter)
+{
+	int trade[] = {1, 2};
+	static int cnt = 0;
+	Transmitter* tr = static_cast<Transmitter*>(transmitter);
+	BYTE buff[32];
+
+	while(true){
+		memcpy( buff, &trade[cnt%2], sizeof(int) );
+
+		tr->sendData( tr->testPath(), buff, sizeof(int) );
+		::Sleep(2000);
+		cnt++;
+	}
 }

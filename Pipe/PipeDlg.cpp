@@ -91,6 +91,7 @@ BEGIN_MESSAGE_MAP(CPipeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_START, &CPipeDlg::OnBnClickedBtnStart)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BTN_DEBUG_SEND, &CPipeDlg::OnBnClickedBtnDebugSend)
+	ON_BN_CLICKED(IDC_BTN_TEST_SEND, &CPipeDlg::OnBnClickedBtnTestSend)
 END_MESSAGE_MAP()
 
 
@@ -269,4 +270,26 @@ void CPipeDlg::OnBnClickedBtnDebugSend()
 	}
 
 	cnt++;
+}
+
+
+void CPipeDlg::OnBnClickedBtnTestSend()
+{
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		if( transmitter() == nullptr )
+			setTransmitter( new MainTradeTr() );
+
+		transmitter()->beginTestSendData( PathTrade );
+	}
+	else{		
+		if( transmitter() == nullptr )
+			setTransmitter( new HedgeTradeTr() );
+
+		transmitter()->beginTestSendData( PathSpread );
+	}
+
 }

@@ -5,9 +5,13 @@ public:
 	Transmitter(void);
 	virtual ~Transmitter(void);
 
-	void sendData(LPCTSTR lpszPath, BYTE* lpData, size_t size);
+	void sendData(LPCTSTR lpszPath, const BYTE* lpData, size_t size);
 	
 	void beginReciveData(LPCTSTR lpszPath);
+
+	void beginSendData(LPCTSTR lpszPath);
+
+	void beginTestSendData(LPCTSTR lpszTestPath);
 
 	/////////////////////////////////////////////////////
 	//
@@ -21,14 +25,37 @@ public:
 		return m_path;
 	}
 
+	void setSendPath(LPCTSTR value){
+		m_sendPath = value;
+	}
+
+	LPCTSTR sendPath() const {
+		return m_sendPath;
+	}
+
+	void setTestPath(LPCTSTR value){
+		m_testPath = value;
+	}
+
+	LPCTSTR testPath() const {
+		return m_testPath;
+	}
+
 	void setDoesReciveData(bool value){
 		m_doesReciveData = value;
+	}
+
+	bool doesSendData() const {
+		return m_doesSendData;
+	}
+
+	void setDoesSendData(bool value){
+		m_doesSendData = value;
 	}
 
 	bool doesReciveData() const {
 		return m_doesReciveData;
 	}
-
 
 	/////////////////////////////////////////////////////
 	//
@@ -56,13 +83,20 @@ protected:
 	virtual void setReciveData(BYTE* data, DWORD size) = 0;
 
 private:
-	static void reciveData(void* transmitter);
+	static void reciveDataProc(void* transmitter);
 
-private:
-	
+	static void sendDataProc(void* transmitter);
+
+	static void testSendData(void* transmitter);	
 
 private:
 	bool m_doesReciveData;
 
+	bool m_doesSendData;
+
 	CString m_path;
+
+	CString m_sendPath;
+
+	CString m_testPath;
 };
