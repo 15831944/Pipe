@@ -2,6 +2,7 @@
 
 #include <queue>
 #include "TradeData.h"
+#include "CriticalSection.h"
 
 class TradeDataManager
 {
@@ -19,5 +20,6 @@ private:
 	virtual ~TradeDataManager(void);
 
 	dataContainer m_conData;
-};
 
+	CriticalSection m_cs;
+};

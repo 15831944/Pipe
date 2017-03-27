@@ -1,11 +1,11 @@
 #include "StdAfx.h"
+#include "Lock.h"
 #include "TradeDataManager.h"
 
 
 TradeDataManager::TradeDataManager(void)
 {
 }
-
 
 TradeDataManager::~TradeDataManager(void)
 {
@@ -20,13 +20,18 @@ TradeDataManager& TradeDataManager::instance()
 
 void TradeDataManager::addData(const TradeData& data)
 {
-	// TODO ロック
+	Lock lock(m_cs);
+
 	m_conData.push(data);
 }
 
 void TradeDataManager::moveData(dataContainer& data)
 {
-	// TODO ロック
+	if( m_conData.empty() )
+		return;
+
+	Lock lock(m_cs);
+	
 	while( !m_conData.empty() ){
 		data.push( m_conData.front() );
 		m_conData.pop();	
