@@ -40,6 +40,8 @@ void Transmission::sendData(void* lpszPath)
 	HANDLE hEvent = NULL;
 	HANDLE hOnReadyEvent = CreateEvent(NULL,FALSE,FALSE,"EVENT_READY");
 	
+	hEvent = CreateEvent(NULL,FALSE,FALSE,"EVENT");
+	
 	//Pipe = CreateNamedPipe((const char*)lpszPath, PIPE_ACCESS_OUTBOUND, PIPE_TYPE_BYTE, 1, sizeof(Buff), sizeof(Buff), 1000, NULL);
 
 	for( int n = 1; !EndTransmission; n++ ){
@@ -64,8 +66,8 @@ void Transmission::sendData(void* lpszPath)
 			sprintf(debugString, "sendData=%lf\n", spread[n%3] );
 			OutputDebugString(debugString);
 			
-			if( hEvent == NULL )
-				hEvent = CreateEvent(NULL,FALSE,FALSE,"EVENT");
+		//	if( hEvent == NULL )
+		//		hEvent = CreateEvent(NULL,FALSE,FALSE,"EVENT");
 			
 			SetEvent(hEvent);
 		}

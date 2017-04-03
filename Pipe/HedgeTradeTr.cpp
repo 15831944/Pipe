@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "HedgeTradeTr.h"
+#include "stUtility.h"
 
 
 HedgeTradeTr::HedgeTradeTr(void)
@@ -18,6 +19,7 @@ void HedgeTradeTr::setReciveData(BYTE* data, DWORD size)
 
 		m_hedgeTrade = *(reinterpret_cast<HedgeTrade*>(data));
 		_stprintf(szBuff, _T("Trade=%d\n"), (int)m_hedgeTrade);
+		stUtility::writeLog( _T("HedgeTradeTr::setReciveData %s\n"), szBuff );
 		OutputDebugString(szBuff);
 	}
 }

@@ -1,12 +1,14 @@
 #pragma once
 
+#include <string>
 
 class stUtility
 {
 public:
 
 	//	ÉçÉOèoóÕ
-	static bool writeLog( LPCTSTR lpszFilePath, LPCTSTR lpszLog, ...);
-
+	static bool writeLog( LPCTSTR lpszLog, ...);
+	
+	static void logFilepath(std::string& filePath);
 };
 

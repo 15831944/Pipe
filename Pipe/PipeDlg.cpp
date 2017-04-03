@@ -8,6 +8,10 @@
 #include "afxdialogex.h"
 #include "MainTradeTr.h"
 #include "HedgeTradeTr.h"
+#include "TradeDataManager.h"
+#include "TransmitterService.h"
+#include "AutoHeadgeTrade.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -55,6 +59,10 @@ END_MESSAGE_MAP()
 CPipeDlg::CPipeDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CPipeDlg::IDD, pParent)
 	, m_tradeType(0)
+	, m_spread(0)
+	, m_trade(0)
+	, m_sendSpread(0)
+	, m_sendTrade(0)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_transmitter = nullptr;
@@ -74,6 +82,10 @@ void CPipeDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_CBIndex(pDX, IDC_CMB_TRADE_TYPE, m_tradeType);
+	DDX_Text(pDX, IDC_EDIT_SPREAD, m_spread);
+	DDX_Text(pDX, IDC_EDIT_TRADE, m_trade);
+	DDX_Text(pDX, IDC_EDIT_SEND_SPREAD, m_sendSpread);
+	DDX_Text(pDX, IDC_EDIT_SEND_TRADE, m_sendTrade);
 }
 
 void CPipeDlg::setTransmitter(Transmitter* value)
@@ -92,6 +104,12 @@ BEGIN_MESSAGE_MAP(CPipeDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BTN_DEBUG_SEND, &CPipeDlg::OnBnClickedBtnDebugSend)
 	ON_BN_CLICKED(IDC_BTN_TEST_SEND, &CPipeDlg::OnBnClickedBtnTestSend)
+	ON_BN_CLICKED(IDC_BTN_BEGIN, &CPipeDlg::OnBnClickedBtnBegin)
+	ON_BN_CLICKED(IDC_BTN_BEGIN_SERVICE, &CPipeDlg::OnBnClickedBtnBeginService)
+	ON_BN_CLICKED(IDC_BTN_GET_SPREAD, &CPipeDlg::OnBnClickedBtnGetSpread)
+	ON_BN_CLICKED(IDC_BTN_SEND_SPREAD, &CPipeDlg::OnBnClickedBtnSendSpread)
+	ON_BN_CLICKED(IDC_BTN_SEND_TRADE, &CPipeDlg::OnBnClickedBtnSendTrade)
+	ON_BN_CLICKED(IDC_BTN_GET_TRADE, &CPipeDlg::OnBnClickedBtnGetTrade)
 END_MESSAGE_MAP()
 
 
@@ -292,4 +310,92 @@ void CPipeDlg::OnBnClickedBtnTestSend()
 		transmitter()->beginTestSendData( PathSpread );
 	}
 
+}
+
+
+void CPipeDlg::OnBnClickedBtnBegin()
+{
+	// TODO: ここにコントロール通知ハンドラー コードを追加します。
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		TransmitterService::instance().beginMainTrade();
+	}
+	else{		
+		TransmitterService::instance().beginHedgeTrade();
+	}
+}
+
+
+void CPipeDlg::OnBnClickedBtnBeginService()
+{
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		startMainTrade();
+	}
+	else{		
+		startHedgeTrade();
+	}
+	
+}
+
+
+void CPipeDlg::OnBnClickedBtnGetSpread()
+{
+	if( m_tradeType == Trade::MAIN ){
+		m_spread = getSpread();
+		UpdateData(FALSE); 
+	}
+	else{		
+		m_trade = getTrade();
+		UpdateData(FALSE); 
+	}
+
+}
+
+void CPipeDlg::OnBnClickedBtnGetTrade()
+{
+	if( m_tradeType == Trade::MAIN ){
+		m_spread = getSpread();
+		UpdateData(FALSE); 
+	}
+	else{		
+		m_trade = getTrade();
+		UpdateData(FALSE); 
+	}
+}
+
+
+void CPipeDlg::OnBnClickedBtnSendSpread()
+{
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		sendTrade(m_sendTrade);
+	}
+	else{		
+		sendSpread(m_sendSpread);
+	}
+}
+
+
+void CPipeDlg::OnBnClickedBtnSendTrade()
+{
+	if( !UpdateData(TRUE) ){
+		return;
+	}
+
+	if( m_tradeType == Trade::MAIN ){
+		sendTrade(m_sendTrade);
+	}
+	else{		
+		sendSpread(m_sendSpread);
+	}
 }

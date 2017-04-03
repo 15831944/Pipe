@@ -40,11 +40,11 @@ void Transmitter::sendData(LPCTSTR lpszPath, const BYTE* lpData, size_t size)
 	HANDLE hOnReady = CreateEvent( NULL, FALSE, FALSE, onReadySendEventName() );
 	BOOL isConnect = FALSE;
 
-	stUtility::writeLog( _T("c:\\TrSendLog.log"), _T("Transmitter::sendData CreateEvent onReadySendEventName=%s hOnReady=%d\n"), onReadySendEventName(), (int)hOnReady);
+	stUtility::writeLog( _T("Transmitter::sendData CreateEvent onReadySendEventName=%s hOnReady=%d\n"), onReadySendEventName(), (int)hOnReady);
 
 	hPipe = CreateNamedPipe(lpszPath, PIPE_ACCESS_OUTBOUND, PIPE_TYPE_BYTE, 1, sizeof(Buff), sizeof(Buff), 10000, NULL);
 
-	stUtility::writeLog( _T("c:\\TrSendLog.log"), _T("Transmitter::sendData CreateNamedPipe lpszPath=%s hPipe=%d\n"), lpszPath, (int)hPipe);
+	stUtility::writeLog( _T("Transmitter::sendData CreateNamedPipe lpszPath=%s hPipe=%d\n"), lpszPath, (int)hPipe);
 		
 	if( hPipe != INVALID_HANDLE_VALUE ){
 		OutputDebugString("Transmitter::sendData before SetEvent hOnReady\n");
@@ -59,7 +59,7 @@ void Transmitter::sendData(LPCTSTR lpszPath, const BYTE* lpData, size_t size)
 		
 		if( hOnData == NULL ){
 			hOnData = CreateEvent( NULL, FALSE, FALSE, onSendEventName() );
-			stUtility::writeLog( _T("c:\\TrSendLog.log"), _T("Transmitter::sendData CreateEvent onSendEventName()=%s hOnData=%d data=%d\n"), onSendEventName(), (int)hOnData, *((int*)lpData) );
+			stUtility::writeLog( _T("Transmitter::sendData CreateEvent onSendEventName()=%s hOnData=%d data=%d\n"), onSendEventName(), (int)hOnData, *((int*)lpData) );
 		}
 		
 		OutputDebugString("Transmitter::sendData before SetEvent hOnData\n");
@@ -92,13 +92,12 @@ void Transmitter::reciveDataProc(void* transmitter)
 		Sleep(1);	//	CPUリソースの消費を抑える
 		hOnReady = OpenEvent( EVENT_ALL_ACCESS, FALSE, tr->onReadyReciveEventName() );
 		OutputDebugString("Transmitter::reciveData after OpenEvent hOnReady\n");
-		//stUtility::writeLog( _T("c:\\TrReciveLog.log"), _T("Transmitter::reciveData OpenEvent onReadyReciveEventName()=%s hOnReady=%d\n"), tr->onReadyReciveEventName(), hOnReady);
 	}
 
 	while( tr->doesReciveData() ){
 		WaitForSingleObject(hOnReady, INFINITE);
 		hPipe = CreateFile(tr->path(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
-		stUtility::writeLog( _T("c:\\TrReciveLog.log"), _T("Transmitter::reciveData CreateFile path()=%s hPipe=%d\n"), tr->path(), hPipe);
+		stUtility::writeLog( _T("Transmitter::reciveData CreateFile path()=%s hPipe=%d\n"), tr->path(), hPipe);
 		
 		if( hPipe != INVALID_HANDLE_VALUE ){
 			DWORD dwResult = 0;
@@ -107,14 +106,13 @@ void Transmitter::reciveDataProc(void* transmitter)
 				hOnData = OpenEvent(EVENT_ALL_ACCESS,FALSE, tr->onReciveEventName() );
 			}
 
-			stUtility::writeLog( _T("c:\\TrReciveLog.log"), _T("Transmitter::reciveData OpenEvent onReciveEventName()=%s hOnData=%d\n"), tr->onReciveEventName(), hOnData);
+			stUtility::writeLog( _T("Transmitter::reciveData OpenEvent onReciveEventName()=%s hOnData=%d\n"), tr->onReciveEventName(), hOnData);
 
 			WaitForSingleObject(hOnData, INFINITE);
 
 			ReadFile(hPipe, buff, sizeof(buff), &dwResult, NULL);
-			//tr->setReciveData(buff, dwResult);
+			tr->setReciveData(buff, dwResult);
 			OutputDebugString("Transmitter::reciveData after setReciveData\n");
-			stUtility::writeLog( _T("c:\\TrReciveLog.log"), _T("Transmitter::reciveData ReadFile data=%d\n"), *((int*)buff) );
 
 			CloseHandle(hPipe);
 			ResetEvent(hOnData);
@@ -149,6 +147,7 @@ void Transmitter::sendDataProc(void* transmitter)
 			const auto& data = conData.front();
 
 			tr->sendData( tr->sendPath(), data.get(), data.size() );
+			//	TODO ログ出力
 			conData.pop();
 		}
 		

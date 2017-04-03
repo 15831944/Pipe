@@ -55,4 +55,29 @@
 #endif
 #endif
 
+#pragma warning(disable:4251)
+#pragma warning(disable:4482)
+#pragma warning(disable:4018)
+#pragma warning(disable:4996)
+
+#include "StdAht.h"
+
+#include <assert.h>
+#include <limits.h>
+#include <string>
+#include <TCHAR.H>
+#include <time.h>
+#include <memory>
+#include <algorithm>
+#include <unordered_map>
+#include <map>
+#include <unordered_set>
+#include <set>
+#include <queue>
+#include <array>
+#include <fstream>
+#include <iostream>
+#include <WinBase.h>
+#include <process.h>
+
 

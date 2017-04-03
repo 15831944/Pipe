@@ -12,7 +12,7 @@ public:
 		SHORT
 	};
 
-	TransmitterService& instance();
+	static TransmitterService& instance();
 
 	void beginMainTrade();
 

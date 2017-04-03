@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "MainTradeTr.h"
-
+#include "stUtility.h"
 
 MainTradeTr::MainTradeTr(void)
 	: m_hedgeAccountSpread(0.0)
@@ -17,6 +17,8 @@ void MainTradeTr::setReciveData(BYTE* data, DWORD size){
 
 		m_hedgeAccountSpread = *(reinterpret_cast<double*>(data));
 		_stprintf(szBuff, _T("Spread=%.5lf\n"), m_hedgeAccountSpread);
+		stUtility::writeLog( _T("MainTradeTr::setReciveData %s\n"), szBuff );
+
 		OutputDebugString(szBuff);
 	}
 }

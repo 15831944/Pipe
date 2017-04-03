@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pipe", "Pipe\Pipe.vcxproj", "{891DCF01-BC1B-454A-9505-65AFA454D448}"
+	ProjectSection(ProjectDependencies) = postProject
+		{175C810E-7BA6-4A3C-8D2E-826435D45A93} = {175C810E-7BA6-4A3C-8D2E-826435D45A93}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoHeadgeTrade", "..\..\AutoHeadgeTrade\AutoHeadgeTrade\AutoHeadgeTrade.vcxproj", "{175C810E-7BA6-4A3C-8D2E-826435D45A93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{891DCF01-BC1B-454A-9505-65AFA454D448}.Debug|Win32.Build.0 = Debug|Win32
 		{891DCF01-BC1B-454A-9505-65AFA454D448}.Release|Win32.ActiveCfg = Release|Win32
 		{891DCF01-BC1B-454A-9505-65AFA454D448}.Release|Win32.Build.0 = Release|Win32
+		{175C810E-7BA6-4A3C-8D2E-826435D45A93}.Debug|Win32.ActiveCfg = Debug|Win32
+		{175C810E-7BA6-4A3C-8D2E-826435D45A93}.Debug|Win32.Build.0 = Debug|Win32
+		{175C810E-7BA6-4A3C-8D2E-826435D45A93}.Release|Win32.ActiveCfg = Release|Win32
+		{175C810E-7BA6-4A3C-8D2E-826435D45A93}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

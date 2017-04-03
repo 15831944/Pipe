@@ -67,4 +67,18 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedBtnDebugSend();
 	afx_msg void OnBnClickedBtnTestSend();
+	afx_msg void OnBnClickedBtnBegin();
+	afx_msg void OnBnClickedBtnBeginService();
+private:
+	double m_spread;
+	int m_trade;
+public:
+	afx_msg void OnBnClickedBtnGetSpread();
+private:
+	double m_sendSpread;
+	int	   m_sendTrade;
+public:
+	afx_msg void OnBnClickedBtnSendSpread();
+	afx_msg void OnBnClickedBtnSendTrade();
+	afx_msg void OnBnClickedBtnGetTrade();
 };
