@@ -110,6 +110,7 @@ BEGIN_MESSAGE_MAP(CPipeDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_SEND_SPREAD, &CPipeDlg::OnBnClickedBtnSendSpread)
 	ON_BN_CLICKED(IDC_BTN_SEND_TRADE, &CPipeDlg::OnBnClickedBtnSendTrade)
 	ON_BN_CLICKED(IDC_BTN_GET_TRADE, &CPipeDlg::OnBnClickedBtnGetTrade)
+	ON_BN_CLICKED(IDC_BTN_STOP, &CPipeDlg::OnBnClickedBtnStop)
 END_MESSAGE_MAP()
 
 
@@ -398,4 +399,10 @@ void CPipeDlg::OnBnClickedBtnSendTrade()
 	else{		
 		sendSpread(m_sendSpread);
 	}
+}
+
+
+void CPipeDlg::OnBnClickedBtnStop()
+{
+	stop();
 }

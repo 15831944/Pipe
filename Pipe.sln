@@ -6,7 +6,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pipe", "Pipe\Pipe.vcxproj",
 		{175C810E-7BA6-4A3C-8D2E-826435D45A93} = {175C810E-7BA6-4A3C-8D2E-826435D45A93}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoHeadgeTrade", "..\..\AutoHeadgeTrade\AutoHeadgeTrade\AutoHeadgeTrade.vcxproj", "{175C810E-7BA6-4A3C-8D2E-826435D45A93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AutoHeadgeTrade", "..\AutoHeadgeTrade\AutoHeadgeTrade\AutoHeadgeTrade.vcxproj", "{175C810E-7BA6-4A3C-8D2E-826435D45A93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -81,4 +81,5 @@ public:
 	afx_msg void OnBnClickedBtnSendSpread();
 	afx_msg void OnBnClickedBtnSendTrade();
 	afx_msg void OnBnClickedBtnGetTrade();
+	afx_msg void OnBnClickedBtnStop();
 };
