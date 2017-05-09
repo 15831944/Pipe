@@ -378,6 +378,7 @@ void CPipeDlg::OnBnClickedBtnSendSpread()
 		return;
 	}
 
+	setOutputLogLevel(1);
 	if( m_tradeType == Trade::MAIN ){
 		sendTrade(m_sendTrade);
 	}
@@ -393,6 +394,7 @@ void CPipeDlg::OnBnClickedBtnSendTrade()
 		return;
 	}
 
+	setOutputLogLevel(1);
 	if( m_tradeType == Trade::MAIN ){
 		sendTrade(m_sendTrade);
 	}
@@ -404,5 +406,5 @@ void CPipeDlg::OnBnClickedBtnSendTrade()
 
 void CPipeDlg::OnBnClickedBtnStop()
 {
-	stop();
+	stopService();
 }
